@@ -9,7 +9,10 @@ export default createStore({
     users: [],
     planet: {},
   },
-  getters: { },
+  getters: { 
+    getFilteredUsers: (state) => (query) => [...state.users].filter((user) => user.name === query),
+    
+  },
   mutations: {
     SET_USERS(state, users) {
       state.users = users;
