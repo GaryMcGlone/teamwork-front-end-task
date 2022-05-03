@@ -9,9 +9,13 @@ export default createStore({
     users: [],
     planet: {},
   },
-  getters: { 
-    getFilteredUsers: (state) => (query) => [...state.users].filter((user) => user.name === query),
-    
+  getters: {
+    getFilteredUsers: (state) => (query) =>
+      query
+        ? [...state.users].filter(user => user.name.toLowerCase().includes(query.toLowerCase()))
+        : [],
+
+    // if sorting a string use localeCompare else just a - b sort
     getSortedByColumn: (state) => (column, orderBy) => {
       if (column != "name") {
         if (orderBy === "asc")
@@ -19,9 +23,13 @@ export default createStore({
         else return [...state.users].sort((a, b) => b[column] - a[column]);
       } else {
         if (orderBy === "asc")
-          return [...state.users].sort((a, b) => a[column].localeCompare(b[column]));
+          return [...state.users].sort((a, b) =>
+            a[column].localeCompare(b[column])
+          );
         else
-          return [...state.users].sort((a, b) => b[column].localeCompare(a[column]));
+          return [...state.users].sort((a, b) =>
+            b[column].localeCompare(a[column])
+          );
       }
     },
   },

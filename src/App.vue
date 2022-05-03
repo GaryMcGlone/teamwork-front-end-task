@@ -54,7 +54,7 @@ export default {
     },
   },
   methods: {
-    openModal: function (event) {
+    openModal(event) {
       (this.homeworld = event), (this.showModal = true);
     },
     setQuery(event) {

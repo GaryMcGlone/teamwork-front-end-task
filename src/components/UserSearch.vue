@@ -6,7 +6,7 @@
         class="search"
         name="userSearch"
         type="text"
-        placeholder="exact search e.g 'Luke Skywalker'"
+        placeholder="Enter Search"
         @input="onInput"
       />
     </div>
