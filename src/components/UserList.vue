@@ -1,7 +1,11 @@
 <template>
   <table class="user-table">
     <tr>
-      <th v-for="(column, index) in columns" :key="index">
+      <th
+        v-for="(column, index) in columns"
+        @click="sortByColumn(column)"
+        :key="index"
+      >
         {{ column }}
       </th>
     </tr>

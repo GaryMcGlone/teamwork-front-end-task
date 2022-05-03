@@ -12,6 +12,18 @@ export default createStore({
   getters: { 
     getFilteredUsers: (state) => (query) => [...state.users].filter((user) => user.name === query),
     
+    getSortedByColumn: (state) => (column, orderBy) => {
+      if (column != "name") {
+        if (orderBy === "asc")
+          return [...state.users].sort((a, b) => a[column] - b[column]);
+        else return [...state.users].sort((a, b) => b[column] - a[column]);
+      } else {
+        if (orderBy === "asc")
+          return [...state.users].sort((a, b) => a[column].localeCompare(b[column]));
+        else
+          return [...state.users].sort((a, b) => b[column].localeCompare(a[column]));
+      }
+    },
   },
   mutations: {
     SET_USERS(state, users) {

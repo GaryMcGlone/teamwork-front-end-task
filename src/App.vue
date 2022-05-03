@@ -3,7 +3,11 @@
 
   <UserSearch @onSearch="setQuery" />
 
-  <UserList @onViewHomeworld="openModal" :users="searchedUsers.length > 0 ? searchedUsers : users" />
+  <UserList
+    @onViewHomeworld="openModal"
+    @onSort="setSortBy"
+    :users="searchedUsers.length > 0 ? searchedUsers : sortedUsers"
+  />
 
   <div v-if="showModal" class="planet-modal-container">
     <PlanetModal :homeworld="homeworld" @onClose="showModal = false" />
@@ -15,7 +19,7 @@ import HeaderItem from "./components/HeaderItem.vue";
 import UserList from "./components/UserList.vue";
 import UserSearch from "./components/UserSearch.vue";
 import PlanetModal from "./components/PlanetModal.vue";
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -38,14 +42,15 @@ export default {
     await this.$store.dispatch("fetchUsers");
   },
   computed: {
-    ...mapState({
-      users: (state) => state.users,
-    }),
     ...mapGetters({
+      getSortedByColumn: "getSortedByColumn",
       getFilteredUsers: "getFilteredUsers",
     }),
     searchedUsers() {
       return this.getFilteredUsers(this.query);
+    },
+    sortedUsers() {
+      return this.getSortedByColumn(this.sortBy, this.sortOrder);
     },
   },
   methods: {
@@ -54,6 +59,12 @@ export default {
     },
     setQuery(event) {
       this.query = event;
+    },
+    setSortBy(event) {
+      this.sortOrder === "asc"
+        ? (this.sortOrder = "desc")
+        : (this.sortOrder = "asc");
+      this.sortBy = event;
     },
   },
 };
